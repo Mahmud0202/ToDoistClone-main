@@ -1,25 +1,28 @@
-"use client";
-
 import TaskItem from "./TaskItem";
 
 interface Task {
   id: number;
   text: string;
   completed: boolean;
+  isEditing: boolean;
 }
 
 interface TaskListProps {
   tasks: Task[];
-  toggleTask: (id: number) => void;
-  deleteTask: (id: number) => void;
-  handleEditClickTask: (id: number) => void;
+  onToggleTask: (id: number) => void;
+  onDeleteTask: (id: number) => void;
+  onEditTask: (id: number, newText: string) => void;
+  onStartEditing: (id: number) => void;
+  onCancelEditing: (id: number) => void;
 }
 
 export default function TaskList({
   tasks,
-  handleEditClickTask,
-  toggleTask,
-  deleteTask,
+  onToggleTask,
+  onDeleteTask,
+  onEditTask,
+  onStartEditing,
+  onCancelEditing,
 }: TaskListProps) {
   return (
     <ul className="space-y-2">
@@ -27,8 +30,11 @@ export default function TaskList({
         <TaskItem
           key={task.id}
           task={task}
-          toggleTask={toggleTask}
-          deleteTask={deleteTask}
+          onToggleTask={onToggleTask}
+          onDeleteTask={onDeleteTask}
+          onEditTask={onEditTask}
+          onStartEditing={onStartEditing}
+          onCancelEditing={onCancelEditing}
         />
       ))}
     </ul>

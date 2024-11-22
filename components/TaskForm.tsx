@@ -6,16 +6,16 @@ import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
 
 interface TaskFormProps {
-  addTask: (text: string) => void;
+  onAddTask: (text: string) => void;
 }
 
-export default function TaskForm({ addTask }: TaskFormProps) {
+export default function TaskForm({ onAddTask }: TaskFormProps) {
   const [newTask, setNewTask] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (newTask.trim()) {
-      addTask(newTask.trim());
+      onAddTask(newTask.trim());
       setNewTask("");
     }
   };
