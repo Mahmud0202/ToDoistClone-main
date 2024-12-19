@@ -1,31 +1,24 @@
 "use client";
-ٍ
+
 import { useState } from "react";
 import TaskForm from "./TaskForm";
 import TaskList from "./TaskList";
-import { useSession, signOut } from "next-auth/react";
-import { todoType } from "@types/todo;
-  const { data: session } = useSession();ٍٍ
-import {
-  addTodo,
-  deleteTodo,
-  editTodo,
-  toggleTodo,
-} from "@/actions/todoAction";
 
-interface Props {
-  todos: todoType[];
+interface Task {
+  id: number;
+  text: string;
+  completed: boolean;
+  isEditing: boolean;
 }
 
-export default function TodoistClone({ todos }: Props) {
-  const [tasks, setTasks] = useState<todoType[]>(todos);
-const userEmail = .session?.user?.email;
+export default function TodoistClone() {
+  const [tasks, setTasks] = useState<Task[]>([]);
 
-  
   const addTask = (text: string) => {
-    const id = (tasks.at(-1)?.id || 0) + 1;
-    setTasks([...tasks, { id: id, text, completed: false, userEmail }]);
-    addTodo(id, text, userEmail);
+    setTasks([
+      ...tasks,
+      { id: Date.now(), text, completed: false, isEditing: false },
+    ]);
   };
 
   const toggleTask = (id: number) => {
@@ -34,12 +27,10 @@ const userEmail = .session?.user?.email;
         task.id === id ? { ...task, completed: !task.completed } : task
       )
     );
-    toggleTodo(id);
   };
 
   const deleteTask = (id: number) => {
     setTasks(tasks.filter((task) => task.id !== id));
-    deleteTodo(id);
   };
 
   const editTask = (id: number, newText: string) => {
@@ -48,7 +39,6 @@ const userEmail = .session?.user?.email;
         task.id === id ? { ...task, text: newText, isEditing: false } : task
       )
     );
-    editTodo(id, newText);
   };
 
   const startEditing = (id: number) => {
